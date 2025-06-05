@@ -14,7 +14,10 @@ Ubuntu 16.04+ROSkinetic
 **ur_with_robotiq_grasp_gazebo：**
 该包在https://github.com/JingyuYang1997/UR_with_Robotiq_grasp_gazebo是在工作的基础上完成的。原包并没有添加gazebo_grasp_plugin插件，导致gazebo中抓住时夹爪发生抖动。
 
-该元功能包由5个包组成，**ur_desc**是机器人模型描述包，meshes文件夹包含了描述kinect相机、Robotiq夹爪模型的dae和stl文件。urdf文件夹下包含了项目中使用到的urdf文件。model.urdf为使用Robitiq夹爪的机器人模型，model2.urdf为使用自创二指夹爪的机器人模型。ur_with_kinect为包含kinect相机的模型，该模型文件中用到了gazebo_grasp_plugin，可以修复夹爪在 gazebo中抖动，抓取失败等问题，该包的详细信息见https://github.com/JenniferBuehler/gazebo-pkgs。
+1. 该元功能包由5个包组成，**ur_desc**是机器人模型描述包，meshes文件夹包含了描述kinect相机、Robotiq夹爪模型的dae和stl文件。
+2. urdf文件夹下包含了项目中使用到的urdf文件。
+3. model.urdf为使用Robitiq夹爪的机器人模型，model2.urdf为使用自创二指夹爪的机器人模型。
+4. ur_with_kinect为包含kinect相机的模型，该模型文件中用到了gazebo_grasp_plugin，可以修复夹爪在 gazebo中抖动，抓取失败等问题，该包的详细信息见https://github.com/JenniferBuehler/gazebo-pkgs。
 
 **robotiq_85_gripper**为robotiq85夹爪相关仿真、驱动、通信包，但因为其为转动关节，无法确定夹爪距离和关节转角之间的关系，已被本人弃用。
 
@@ -23,12 +26,13 @@ Ubuntu 16.04+ROSkinetic
 **confgi**为包含自创二指夹爪的Moveit配置包（吐槽名字的都给我拖下去）具体配置可在config文件夹下查看。controllers.yaml记录了机器人和夹爪的controller，均为follow_joint_trajectory。sensors_3d中记录了Moveit规划场景监听的点云信息。
 
 **smart_grasping_sandbox_sample**是本包的重头戏。world文件夹包含了一些gazebo世界文件，smart_grasp_sandbox.world是原版包的世界文件。launch文件夹里包含一些启动文件。scripts包含一些python写的功能节点。
-demo_qt.py结合qt界面使用，qt界面发送字符串消息，该节点会订阅，根据消息作出相应的动作。
-demo_add_obs.py中实现了向moveit规划场景中添加障碍物的功能,之后再控制机器人抓取零件放置到指定地点。
-listen_four_move.py会监听停止话题，可以在执行任务的过程中随时根据话题进行停止。
-movetrans.py会监听/arm_controller/follow_joint_trajectory/result话题，即当机器人完成一次运动时，该节点会发送“continue”，使得listen_four_move可以继续运动下去。
-pcltrans.py该节点在收到点云信息后将该信息保存，之后持续不断地发送该话题。
-stop_demo.py会让机器人启动后突然停止，用作测试。
+
+- demo_qt.py结合qt界面使用，qt界面发送字符串消息，该节点会订阅，根据消息作出相应的动作。
+- demo_add_obs.py中实现了向moveit规划场景中添加障碍物的功能,之后再控制机器人抓取零件放置到指定地点。
+- listen_four_move.py会监听停止话题，可以在执行任务的过程中随时根据话题进行停止。
+- movetrans.py会监听/arm_controller/follow_joint_trajectory/result话题，即当机器人完成一次运动时，该节点会发送“continue”，使得listen_four_move可以继续运动下去。
+- pcltrans.py该节点在收到点云信息后将该信息保存，之后持续不断地发送该话题。
+- stop_demo.py会让机器人启动后突然停止，用作测试。
 
 **grasp_msg：**
 一种新建的rosmsg类型，用于传递抓取位姿。
